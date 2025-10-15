@@ -12,43 +12,50 @@
 - [`系统架构`](./00-project-overview/architecture.md) - 系统整体架构和设计理念
 
 ### 🛠️ 环境配置 ([`01-setup`](./01-setup/))
-- [`本地开发环境`](./01-setup/local-development.md) - 开发环境搭建指南
 - [`数据库配置`](./01-setup/database-setup.md) - Supabase数据库完整配置
 - [`Creem支付配置`](./01-setup/creem-payment.md) - Creem支付系统集成指南
 - [`环境变量`](./01-setup/environment-vars.md) - 所有环境变量说明
 
-### 🎨 前端开发 ([`02-frontend`](./02-frontend/))
-- [`组件开发指南`](./02-frontend/components-guide.md) - React组件开发规范和最佳实践
-- [`页面结构说明`](./02-frontend/pages-structure.md) - Next.js App Router页面结构
-- [`样式系统`](./02-frontend/styling-system.md) - Tailwind CSS设计系统
-- [`状态管理`](./02-frontend/state-management.md) - 前端状态管理方案
+### 🎯 开发方法 ([`02-development`](./02-development/))
+- [`TDD开发方法论`](./02-development/tdd-methodology.md) - 测试驱动开发流程和后端优先策略
+- [`开发环境配置`](./02-development/environment-setup.md) - 开发工具配置和环境搭建
+- [`测试策略`](./02-development/testing-strategy.md) - 全面测试策略和质量保证方案
 
-### 🔧 后端开发 ([`03-backend`](./03-backend/))
-- [`API路由设计`](./03-backend/api-routes.md) - Next.js API Routes完整设计
-- [`数据库设计`](./03-backend/database-schema.md) - 数据库表结构和关系设计
-- [`Webhook处理`](./03-backend/webhook-handling.md) - Creem Webhook完整处理流程
-- [`认证系统`](./03-backend/authentication.md) - 用户认证和权限管理
+### 📡 API接口 ([`04-api`](./04-api/))
+- [`API接口规范`](./04-api/api-specification.md) - 完整API接口文档和前后端交互规范
 
-### ⚡ 功能模块 ([`04-features`](./04-features/))
-- [`捐赠系统`](./04-features/donation-system.md) - 完整捐赠功能实现
-- [`用户管理`](./04-features/user-management.md) - 用户注册、登录和个人中心
-- [`内容管理`](./04-features/content-cms.md) - 内容管理系统功能
-- [`数据分析`](./04-features/analytics.md) - 数据统计和分析功能
+### 🎨 前端开发 ([`05-frontend`](./05-frontend/))
+- [`组件开发指南`](./05-frontend/components-guide.md) - React组件开发规范和最佳实践
+- [`页面结构说明`](./05-frontend/pages-structure.md) - Next.js App Router页面结构
+- [`样式系统`](./05-frontend/styling-system.md) - Tailwind CSS设计系统
+- [`状态管理`](./05-frontend/state-management.md) - 前端状态管理方案
 
-### 🚀 部署运维 ([`05-deployment`](./05-deployment/))
-- [`生产环境部署`](./05-deployment/production-deployment.md) - 生产环境部署指南
-- [`监控配置`](./05-deployment/monitoring.md) - 应用监控和告警设置
-- [`备份策略`](./05-deployment/backup-strategy.md) - 数据备份和恢复策略
+### 🔧 后端开发 ([`06-backend`](./06-backend/))
+- [`API路由设计`](./06-backend/api-routes.md) - Next.js API Routes完整设计
+- [`数据库设计`](./06-backend/database-schema.md) - 数据库表结构和关系设计
+- [`Webhook处理`](./06-backend/webhook-handling.md) - Creem Webhook完整处理流程
+- [`认证系统`](./06-backend/authentication.md) - 用户认证和权限管理
 
-### 🔧 维护指南 ([`06-maintenance`](./06-maintenance/))
-- [`日常任务`](./06-maintenance/daily-tasks.md) - 日常维护任务清单
-- [`故障排除`](./06-maintenance/troubleshooting.md) - 常见问题和解决方案
-- [`安全检查清单`](./06-maintenance/security-checklist.md) - 安全检查和最佳实践
+### ⚡ 功能模块 ([`07-features`](./07-features/))
+- [`捐赠系统`](./07-features/donation-system.md) - 完整捐赠功能实现
+- [`用户管理`](./07-features/user-management.md) - 用户注册、登录和个人中心
+- [`内容管理`](./07-features/content-cms.md) - 内容管理系统功能
+- [`数据分析`](./07-features/analytics.md) - 数据统计和分析功能
 
-### 📚 参考资料 ([`07-reference`](./07-reference/))
-- [`API参考`](./07-reference/api-reference.md) - 完整API接口文档
-- [`数据库参考`](./07-reference/database-reference.md) - 数据库表结构和字段说明
-- [`外部链接`](./07-reference/external-links.md) - 相关资源和工具链接
+### 🚀 部署运维 ([`08-deployment`](./08-deployment/))
+- [`生产环境部署`](./08-deployment/production-deployment.md) - 生产环境部署指南
+- [`监控配置`](./08-deployment/monitoring.md) - 应用监控和告警设置
+- [`备份策略`](./08-deployment/backup-strategy.md) - 数据备份和恢复策略
+
+### 🔧 维护指南 ([`09-maintenance`](./09-maintenance/))
+- [`日常任务`](./09-maintenance/daily-tasks.md) - 日常维护任务清单
+- [`故障排除`](./09-maintenance/troubleshooting.md) - 常见问题和解决方案
+- [`安全检查清单`](./09-maintenance/security-checklist.md) - 安全检查和最佳实践
+
+### 📚 参考资料 ([`10-reference`](./10-reference/))
+- [`API参考`](./10-reference/api-reference.md) - 完整API接口文档
+- [`数据库参考`](./10-reference/database-reference.md) - 数据库表结构和字段说明
+- [`外部链接`](./10-reference/external-links.md) - 相关资源和工具链接
 
 ## 🤖 Claude AI助手
 
@@ -70,9 +77,9 @@
    npm install
    ```
 
-2. **配置环境变量**
-   - 复制 `.env.example` 到 `.env.local`
-   - 参考 [`环境变量`](./01-setup/environment-vars.md) 配置所有必需的环境变量
+2. **配置开发环境**
+   - 参考 [`开发环境配置`](./02-development/environment-setup.md) 搭建完整的开发环境
+   - 复制 `.env.example` 到 `.env.local` 并配置环境变量
 
 3. **设置数据库**
    - 参考 [`数据库配置`](./01-setup/database-setup.md) 设置Supabase项目
@@ -81,14 +88,18 @@
 4. **配置支付系统**
    - 参考 [`Creem支付配置`](./01-setup/creem-payment.md) 设置Creem账户
 
-5. **启动开发服务器**
+5. **了解开发方法**
+   - 阅读 [`TDD开发方法论`](./02-development/tdd-methodology.md) 了解测试驱动开发流程
+   - 熟悉 [`测试策略`](./02-development/testing-strategy.md) 确保代码质量
+
+6. **启动开发服务器**
    ```bash
    npm run dev
    ```
 
-6. **访问应用**
+7. **访问应用**
    - 前端应用: http://localhost:3000
-   - API文档: http://localhost:3000/api-docs
+   - API文档: 查看 [`API接口规范`](./04-api/api-specification.md) 了解完整的API接口
 
 ## 📖 文档使用指南
 
@@ -96,8 +107,10 @@
 
 **👨‍💻 开发者**
 1. 阅读项目概览了解整体架构
-2. 按照环境配置指南搭建开发环境
-3. 根据负责模块阅读对应的开发文档
+2. 按照 [`开发环境配置`](./02-development/environment-setup.md) 搭建开发环境
+3. 学习 [`TDD开发方法论`](./02-development/tdd-methodology.md) 和 [`测试策略`](./02-development/testing-strategy.md)
+4. 阅读 [`API接口规范`](./04-api/api-specification.md) 了解前后端交互协议
+5. 根据负责模块阅读对应的开发文档
 
 **🚀 运维人员**
 1. 重点阅读部署运维章节
