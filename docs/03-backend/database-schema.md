@@ -2,7 +2,7 @@
 
 ## 🗄️ 数据库概述
 
-本项目使用 PostgreSQL 作为主数据库，通过 Supabase 提供托管服务。数据库设计遵循第三范式，确保数据一致性和查询效率。
+本项目使用 PostgreSQL 作为主数据库，通过 Supabase 提供托管服务。数据库操作使用 Drizzle ORM 进行类型安全的数据库操作。数据库设计遵循第三范式，确保数据一致性和查询效率。
 
 ### 设计原则
 
@@ -676,32 +676,129 @@ ORDER BY idx_scan DESC;
 
 ## 🔄 数据迁移脚本
 
-### 1. 初始化数据
+### 1. 使用 Drizzle 进行数据迁移
 
-```sql
--- 创建默认管理员用户
-INSERT INTO user_roles (user_id, role)
-VALUES ('admin-user-uuid', 'admin');
+```typescript
+// drizzle/seed.ts
+import { db } from '@/lib/database'
+import { users, donationProjects, userRoles, contentCategories } from './schema'
+import { userRoleEnum } from './schema'
 
--- 创建默认内容分类
-INSERT INTO content_categories (name, slug, description) VALUES
-('野生动物故事', 'wildlife-stories', '可可西里野生动物的真实故事'),
-('保护知识', 'conservation-knowledge', '科学保护野生动物的知识'),
-('新闻动态', 'news', '最新的保护工作动态'),
-('科学研究', 'scientific-research', '野生动物相关的科学研究');
+async function seed() {
+  console.log('🌱 开始数据库种子数据初始化...')
 
--- 创建默认捐赠项目
-INSERT INTO donation_projects (title, slug, description, target_amount, status) VALUES
-('可可西里野生动物保护基金', 'kekekeli-protection-fund', '支持可可西里地区野生动物的科学保护和救助工作', 1000000, 'active'),
-('野生动物教育宣传', 'education-outreach', '制作和传播科学保护野生动物的教育内容', 500000, 'active'),
-('保护设备采购', 'equipment-purchase', '为野外保护工作者提供必要的设备和工具', 300000, 'active');
+  try {
+    // 创建默认管理员用户（需要先创建用户）
+    // const adminUser = await db.insert(users).values({
+    //   email: 'admin@example.com',
+    //   name: '管理员',
+    //   role: 'admin'
+    // }).returning();
 
--- 初始化项目统计
-INSERT INTO project_stats (project_id)
-SELECT id FROM donation_projects;
+    // 创建默认内容分类
+    await db.insert(contentCategories).values([
+      {
+        name: '野生动物故事',
+        slug: 'wildlife-stories',
+        description: '可可西里野生动物的真实故事',
+        icon: '🐺',
+        color: '#3B82F6'
+      },
+      {
+        name: '保护知识',
+        slug: 'conservation-knowledge',
+        description: '科学保护野生动物的知识',
+        icon: '📚',
+        color: '#10B981'
+      },
+      {
+        name: '新闻动态',
+        slug: 'news',
+        description: '最新的保护工作动态',
+        icon: '📰',
+        color: '#F59E0B'
+      },
+      {
+        name: '科学研究',
+        slug: 'scientific-research',
+        description: '野生动物相关的科学研究',
+        icon: '🔬',
+        color: '#8B5CF6'
+      }
+    ]);
+
+    // 创建默认捐赠项目
+    const [project1, project2, project3] = await db.insert(donationProjects).values([
+      {
+        title: '可可西里野生动物保护基金',
+        slug: 'kekekeli-protection-fund',
+        description: '支持可可西里地区野生动物的科学保护和救助工作',
+        targetAmount: '1000000',
+        category: 'protection',
+        tags: ['可可西里', '野生动物', '保护基金']
+      },
+      {
+        title: '野生动物教育宣传',
+        slug: 'education-outreach',
+        description: '制作和传播科学保护野生动物的教育内容',
+        targetAmount: '500000',
+        category: 'education',
+        tags: ['教育', '宣传', '科普']
+      },
+      {
+        title: '保护设备采购',
+        slug: 'equipment-purchase',
+        description: '为野外保护工作者提供必要的设备和工具',
+        targetAmount: '300000',
+        category: 'equipment',
+        tags: ['设备', '工具', '野外保护']
+      }
+    ]).returning();
+
+    console.log('✅ 数据库种子数据初始化完成！');
+    console.log('📊 创建了 4 个内容分类');
+    console.log('🎯 创建了 3 个捐赠项目');
+
+  } catch (error) {
+    console.error('❌ 数据库种子数据初始化失败:', error);
+    process.exit(1);
+  }
+}
+
+// 运行种子数据
+seed();
 ```
 
-### 2. 数据备份策略
+### 2. 运行种子数据
+
+```bash
+# 运行种子数据脚本
+npx tsx drizzle/seed.ts
+
+# 或者使用 npm 脚本
+npm run db:seed
+```
+
+### 3. 手动 SQL 初始化
+
+如果需要手动执行 SQL，可以使用以下脚本：
+
+```sql
+-- 创建默认内容分类
+INSERT INTO content_categories (name, slug, description, icon, color) VALUES
+('野生动物故事', 'wildlife-stories', '可可西里野生动物的真实故事', '🐺', '#3B82F6'),
+('保护知识', 'conservation-knowledge', '科学保护野生动物的知识', '📚', '#10B981'),
+('新闻动态', 'news', '最新的保护工作动态', '📰', '#F59E0B'),
+('科学研究', 'scientific-research', '野生动物相关的科学研究', '🔬', '#8B5CF6');
+
+-- 创建默认捐赠项目
+INSERT INTO donation_projects (title, slug, description, target_amount, status, category, tags) VALUES
+('可可西里野生动物保护基金', 'kekekeli-protection-fund', '支持可可西里地区野生动物的科学保护和救助工作', 1000000, 'active', 'protection', ARRAY['可可西里', '野生动物', '保护基金']),
+('野生动物教育宣传', 'education-outreach', '制作和传播科学保护野生动物的教育内容', 500000, 'active', 'education', ARRAY['教育', '宣传', '科普']),
+('保护设备采购', 'equipment-purchase', '为野外保护工作者提供必要的设备和工具', 300000, 'active', 'equipment', ARRAY['设备', '工具', '野外保护']);
+```
+
+### 4. 数据备份策略
 
 ```sql
 -- 创建备份函数

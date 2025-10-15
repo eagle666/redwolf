@@ -2,7 +2,7 @@
 
 ## 🗄️ 数据库概述
 
-本项目使用 **Supabase** 作为数据库服务，它提供了基于 PostgreSQL 的托管数据库解决方案，包含实时功能、认证系统和存储服务。
+本项目使用 **Supabase** 作为数据库服务，它提供了基于 PostgreSQL 的托管数据库解决方案，包含实时功能、认证系统和存储服务。数据库操作使用 **Drizzle ORM** 进行类型安全的数据库操作。
 
 ### 选择 Supabase 的理由
 
@@ -93,8 +93,10 @@ npm install @supabase/supabase-js
 # 安装 Next.js Auth Helpers
 npm install @supabase/auth-helpers-nextjs @supabase/auth-helpers-react
 
-# 安装 Prisma（如果需要）
-npm install prisma @prisma/client
+# 安装 Drizzle ORM
+npm install drizzle-orm drizzle-kit
+npm install postgres
+npm install @types/pg
 ```
 
 ### 第五步：创建数据库表结构
@@ -358,72 +360,110 @@ export default function DonationList() {
 
 ## 🔄 数据库迁移
 
-### 使用 Prisma 进行迁移管理
+### 使用 Drizzle 进行迁移管理
 
-如果选择使用 Prisma，可以创建 `prisma/schema.prisma`：
+创建 `drizzle/schema.ts` 文件：
 
-```prisma
-// prisma/schema.prisma
-generator client {
-  provider = "prisma-client-js"
-}
+```typescript
+// drizzle/schema.ts
+import { pgTable, serial, text, decimal, timestamp, uuid, boolean, integer, jsonb } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+// 用户角色枚举
+export const userRoleEnum = ['user', 'admin', 'content_manager'] as const;
+export type UserRole = typeof userRoleEnum[number];
 
-model User {
-  id              String    @id @default(cuid())
-  email           String    @unique
-  name            String?
-  role            UserRole  @default(USER)
-  donations       Donation[]
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-}
+// 捐赠状态枚举
+export const donationStatusEnum = ['pending', 'completed', 'failed', 'refunded'] as const;
+export type DonationStatus = typeof donationStatusEnum[number];
 
-model Donation {
-  id              String    @id @default(cuid())
-  amount          Decimal
-  supporterName   String
-  supporterEmail  String?
-  message         String?
-  status          DonationStatus @default(PENDING)
-  userId          String?
-  user            User?     @relation(fields: [userId], references: [id])
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-}
+// 用户表
+export const users = pgTable('users', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  email: text('email').unique().notNull(),
+  name: text('name'),
+  role: text('role').default('user').$type<UserRole>(),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
 
-enum UserRole {
-  USER
-  ADMIN
-  CONTENT_MANAGER
-}
+// 捐赠项目表
+export const donationProjects = pgTable('donation_projects', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  title: text('title').notNull(),
+  description: text('description'),
+  targetAmount: decimal('target_amount', { precision: 12, scale: 2 }),
+  currentAmount: decimal('current_amount', { precision: 12, scale: 2 }).default('0'),
+  status: text('status').default('active'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
 
-enum DonationStatus {
-  PENDING
-  COMPLETED
-  FAILED
-  REFUNDED
-}
+// 捐赠记录表
+export const donations = pgTable('donations', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  projectId: uuid('project_id').references(() => donationProjects.id),
+  userId: uuid('user_id').references(() => users.id),
+  amount: decimal('amount', { precision: 10, scale: 2 }).notNull(),
+  supporterName: text('supporter_name').notNull(),
+  supporterEmail: text('supporter_email'),
+  message: text('message'),
+  status: text('status').default('pending').$type<DonationStatus>(),
+  metadata: jsonb('metadata').default('{}'),
+  createdAt: timestamp('created_at').defaultNow(),
+  completedAt: timestamp('completed_at'),
+});
+
+// 关系定义
+export const usersRelations = relations(users, ({ many }) => ({
+  donations: many(donations),
+}));
+
+export const donationsRelations = relations(donations, ({ one }) => ({
+  user: one(users, {
+    fields: [donations.userId],
+    references: [users.id],
+  }),
+  project: one(donationProjects, {
+    fields: [donations.projectId],
+    references: [donationProjects.id],
+  }),
+}));
+
+export const donationProjectsRelations = relations(donationProjects, ({ many }) => ({
+  donations: many(donations),
+}));
+```
+
+### 配置 Drizzle Kit
+
+创建 `drizzle.config.ts`：
+
+```typescript
+// drizzle.config.ts
+import type { Config } from 'drizzle-kit';
+
+export default {
+  schema: './drizzle/schema.ts',
+  out: './drizzle/migrations',
+  driver: 'pg',
+  dbCredentials: {
+    connectionString: process.env.DATABASE_URL!,
+  },
+} satisfies Config;
 ```
 
 ### 运行迁移
 
 ```bash
-# 生成 Prisma 客户端
-npx prisma generate
+# 生成迁移文件
+npx drizzle-kit generate
 
 # 推送 schema 到数据库
-npx prisma db push
-
-# 创建迁移文件
-npx prisma migrate dev --name init
+npx drizzle-kit push
 
 # 应用迁移
-npx prisma migrate deploy
+npx drizzle-kit migrate
 ```
 
 ## 🔍 数据库监控
@@ -539,7 +579,7 @@ npx prisma migrate deploy
 
 - [Supabase 官方文档](https://supabase.com/docs)
 - [PostgreSQL 官方文档](https://www.postgresql.org/docs/)
-- [Prisma 文档](https://www.prisma.io/docs/)
+- [Drizzle ORM 文档](https://orm.drizzle.team/)
 - [Next.js 数据库最佳实践](https://nextjs.org/docs/building-your-application/data-fetching)
 
 ---

@@ -2,10 +2,10 @@
 
 ## 🤖 项目概述
 
-这是可可西里野生动物保护网站项目，一个基于Next.js 14的公益筹款平台，专注于科学保护和科学爱护野生动物。
+这是可可西里网红狼公益网站项目，一个基于Next.js 14的公益筹款平台，专注于科学保护和科学爱护野生动物，特别关注网红狼的故事和保护工作。
 
 ### 项目核心信息
-- **项目名称**: 可可西里野生动物保护网站
+- **项目名称**: 可可西里网红狼公益网站
 - **项目类型**: 公益筹款 + 教育平台
 - **核心价值观**: 科学保护、科学爱护（不支持不反对投喂行为）
 - **目标用户**: 关注野生动物保护的公众、捐赠者、保护工作者
@@ -38,14 +38,12 @@
 ### 后端技术
 - **Next.js API Routes**: 服务端API开发
 - **Supabase**: 数据库 + 认证 + 实时功能
-- **Prisma ORM**: 类型安全的数据库操作
+- **Drizzle ORM**: 类型安全的数据库操作
 - **Creem**: 支付处理和Webhook
 
 ### 开发工具
 - **ESLint + Prettier**: 代码格式化和规范
-- **Husky**: Git钩子管理
 - **TypeScript**: 类型检查和开发体验
-- **Vercel**: 部署和托管
 
 ## 📁 项目关键文件位置
 
@@ -68,8 +66,8 @@ src/
 ├── types/                # TypeScript类型定义
 └── hooks/                # React Hooks
 
-prisma/
-├── schema.prisma         # 数据库模型定义
+drizzle/
+├── schema.ts             # 数据库模式定义
 └── migrations/           # 数据库迁移文件
 
 docs/                     # 项目文档
@@ -87,14 +85,11 @@ npm run lint            # 代码检查
 npm run lint:fix        # 自动修复代码问题
 
 # 数据库相关
-npx prisma studio       # 数据库可视化管理 (localhost:5555)
-npx prisma generate     # 生成Prisma客户端
-npx prisma migrate dev  # 运行数据库迁移
-npx prisma db push      # 推送schema到数据库
-
+npx drizzle-kit studio  # 数据库可视化管理
+npx drizzle-kit generate # 生成迁移文件
+npx drizzle-kit migrate # 运行数据库迁移
 # 部署相关
 npm run build           # 构建项目
-vercel --prod          # 部署到Vercel生产环境
 ```
 
 ## 🎨 开发规范
@@ -187,7 +182,7 @@ export async function POST(request: NextRequest) {
 - **输入验证**: 使用Zod或类似库验证API输入
 - **CORS配置**: 正确配置跨域访问策略
 - **认证检查**: 确保敏感API有适当的认证
-- **SQL注入**: 使用Prisma ORM避免SQL注入
+- **SQL注入**: 使用Drizzle ORM避免SQL注入
 
 ## 🚨 常见问题处理
 
@@ -200,9 +195,9 @@ lsof -ti:3000 | xargs kill -9
 rm -rf node_modules package-lock.json
 npm install
 
-# Prisma问题
-npx prisma generate
-npx prisma db push
+# Drizzle问题
+npx drizzle-kit generate
+npx drizzle-kit migrate
 ```
 
 ### 构建问题
@@ -243,26 +238,26 @@ debugger
 
 ## 🔄 数据库操作最佳实践
 
-### Prisma使用规范
+### Drizzle使用规范
 ```typescript
 // ✅ 使用事务处理复杂操作
-await prisma.$transaction(async (tx) => {
-  await tx.donation.create(data)
-  await tx.projectStats.update(updateData)
+await db.transaction(async (tx) => {
+  await tx.insert(donations).values(data)
+  await tx.update(projectStats).set(updateData)
 })
 
 // ✅ 使用select优化查询
-const user = await prisma.user.findUnique({
-  where: { id },
-  select: { name: true, email: true }
+const user = await db.query.users.findFirst({
+  where: eq(users.id, id),
+  columns: { name: true, email: true }
 })
 
 // ✅ 处理数据库错误
 try {
-  const result = await prisma.donation.create(data)
+  const result = await db.insert(donations).values(data)
 } catch (error) {
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    // 处理特定的Prisma错误
+  if (error instanceof DrizzleError) {
+    // 处理特定的Drizzle错误
   }
 }
 ```

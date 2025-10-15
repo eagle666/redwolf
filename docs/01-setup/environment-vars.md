@@ -98,7 +98,7 @@ MAX_DONATION_AMOUNT=100000
 # Resend 邮件服务
 RESEND_API_KEY=re_your_api_key_here
 RESEND_FROM_EMAIL=noreply@your-domain.com
-RESEND_FROM_NAME=可可西里保护团队
+RESEND_FROM_NAME=可可西里网红狼团队
 
 # 邮件模板配置
 EMAIL_TEMPLATE_SUCCESS=donation-success
@@ -131,8 +131,8 @@ SENTRY_AUTH_TOKEN=your-sentry-auth-token-here
 # Google Analytics
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 
-# Vercel Analytics
-NEXT_PUBLIC_VERCEL_ANALYTICS=true
+# 应用分析
+NEXT_PUBLIC_APP_ANALYTICS=true
 ```
 
 ### 7. 存储和 CDN 配置
@@ -183,12 +183,12 @@ TRANSLATION_API_KEY=your-translation-api-key
 
 ```env
 # =============================================================================
-# 可可西里野生动物保护网站 - 环境变量配置模板
+# 可可西里网红狼公益网站 - 环境变量配置模板
 # =============================================================================
 
 # 应用基础配置
-NEXT_PUBLIC_APP_NAME=可可西里野生动物保护
-NEXT_PUBLIC_APP_DESCRIPTION=科学保护野生动物，维护生态平衡
+NEXT_PUBLIC_APP_NAME=可可西里网红狼公益网站
+NEXT_PUBLIC_APP_DESCRIPTION=科学保护网红狼，维护生态平衡
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_APP_VERSION=1.0.0
 
@@ -210,7 +210,7 @@ NEXT_PUBLIC_CREEM_ENABLED=true
 # 邮件服务 (Resend)
 RESEND_API_KEY=re_your_api_key_here
 RESEND_FROM_EMAIL=noreply@your-domain.com
-RESEND_FROM_NAME=可可西里保护团队
+RESEND_FROM_NAME=可可西里网红狼团队
 
 # 认证配置
 NEXTAUTH_URL=http://localhost:3000
@@ -652,7 +652,7 @@ export function debugEnvVars() {
 
 - [Next.js 环境变量文档](https://nextjs.org/docs/basic-features/environment-variables)
 - [Supabase 环境配置指南](https://supabase.com/docs/guides/functions/env-variables)
-- [Vercel 环境变量管理](https://vercel.com/docs/concepts/projects/environment-variables)
+- [平台环境变量管理](https://docs.example.com/env-vars)
 - [12-Factor App 配置管理](https://12factor.net/config)
 
 ---
