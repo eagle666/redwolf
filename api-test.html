@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API测试工具 - 可可西里网红狼公益网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .main {
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .section-content {
+            padding: 20px;
+        }
+
+        .api-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .api-item {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .api-header {
+            background: #f8f9fa;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .method {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .method.get { background: #e3f2fd; color: #1976d2; }
+        .method.post { background: #e8f5e8; color: #388e3c; }
+        .method.put { background: #fff3e0; color: #f57c00; }
+        .method.delete { background: #ffebee; color: #d32f2f; }
+
+        .api-url {
+            font-size: 13px;
+            color: #666;
+            font-family: 'Courier New', monospace;
+        }
+
+        .api-content {
+            padding: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .response {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .response-header {
+            background: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status {
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status.success { background: #e8f5e8; color: #2e7d32; }
+        .status.error { background: #ffebee; color: #c62828; }
+
+        .response-body {
+            padding: 15px;
+            background: #f8f9fa;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .auth-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .auth-section h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .auth-section p {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .token-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .token-input input {
+            flex: 1;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-box h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            color: #1976d2;
+            margin-left: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #333;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐺 可可西里网红狼公益网站 API测试工具</h1>
+            <p>使用此工具可以方便地测试所有API接口功能</p>
+        </div>
+
+        <div class="main">
+            <!-- 认证信息 -->
+            <div class="auth-section">
+                <h4>🔐 认证设置</h4>
+                <p>大部分API需要JWT Token认证。请先登录获取Token，然后输入到下方。</p>
+                <div class="token-input">
+                    <input type="text" id="authToken" class="form-control" placeholder="请输入JWT Token">
+                    <button class="btn" onclick="setToken()">设置Token</button>
+                </div>
+                <p style="margin-top: 10px; font-size: 12px;">
+                    当前Token状态: <span id="tokenStatus">未设置</span>
+                </p>
+            </div>
+
+            <!-- 快速开始 -->
+            <div class="info-box">
+                <h4>🚀 快速开始</h4>
+                <ul>
+                    <li>1. 首先在"用户认证"标签页注册账号或登录获取Token</li>
+                    <li>2. 将获取的Token输入到上方的认证设置框中</li>
+                    <li>3. 选择不同的功能标签页测试对应的API</li>
+                    <li>4. 点击"发送请求"按钮查看API响应结果</li>
+                    <li>5. 所有请求都会显示详细的响应数据和状态码</li>
+                </ul>
+            </div>
+
+            <!-- 功能标签页 -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('auth')">🔑 用户认证</button>
+                <button class="tab" onclick="switchTab('projects')">📁 项目管理</button>
+                <button class="tab" onclick="switchTab('donations')">💰 捐赠管理</button>
+                <button class="tab" onclick="switchTab('system')">🛠️ 系统管理</button>
+            </div>
+
+            <!-- 用户认证 -->
+            <div id="auth-tab" class="tab-content active">
+                <div class="section">
+                    <div class="section-header">用户注册</div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>邮箱</label>
+                            <input type="email" id="register-email" class="form-control" placeholder="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>密码</label>
+                            <input type="password" id="register-password" class="form-control" placeholder="password123">
+                        </div>
+                        <div class="form-group">
+                            <label>姓名</label>
+                            <input type="text" id="register-name" class="form-control" placeholder="张三">
+                        </div>
+                        <div class="form-group">
+                            <label>手机号 (可选)</label>
+                            <input type="tel" id="register-phone" class="form-control" placeholder="13800138000">
+                        </div>
+                        <button class="btn" onclick="testRegister()">注册用户</button>
+                        <div id="register-response" class="response hidden">
+                            <div class="response-header">
+                                <span>响应</span>
+                                <span class="status" id="register-status"></span>
+                            </div>
+                            <div class="response-body" id="register-body"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">用户登录</div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>邮箱</label>
+                            <input type="email" id="login-email" class="form-control" placeholder="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>密码</label>
+                            <input type="password" id="login-password" class="form-control" placeholder="password123">
+                        </div>
+                        <button class="btn" onclick="testLogin()">登录</button>
+                        <div id="login-response" class="response hidden">
+                            <div class="response-header">
+                                <span>响应</span>
+                                <span class="status" id="login-status"></span>
+                            </div>
+                            <div class="response-body" id="login-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目管理 -->
+            <div id="projects-tab" class="tab-content">
+                <div class="section">
+                    <div class="section-header">获取项目列表</div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>页码</label>
+                            <input type="number" id="projects-page" class="form-control" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>每页数量</label>
+                            <input type="number" id="projects-limit" class="form-control" value="10" min="1" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>状态筛选</label>
+                            <select id="projects-status" class="form-control">
+                                <option value="">全部</option>
+                                <option value="active">进行中</option>
+                                <option value="completed">已完成</option>
+                                <option value="cancelled">已取消</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>搜索关键词</label>
+                            <input type="text" id="projects-search" class="form-control" placeholder="可可西里">
+                        </div>
+                        <button class="btn" onclick="testGetProjects()">获取项目列表</button>
+                        <div id="projects-list-response" class="response hidden">
+                            <div class="response-header">
+                                <span>响应</span>
+                                <span class="status" id="projects-list-status"></span>
+                            </div>
+                            <div class="response-body" id="projects-list-body"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">获取项目详情</div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>项目ID</label>
+                            <input type="text" id="project-id" class="form-control" placeholder="project_123">
+                        </div>
+                        <button class="btn" onclick="testGetProject()">获取项目详情</button>
+                        <div id="project-detail-response" class="response hidden">
+                            <div class="response-header">
+                                <span>响应</span>
+                                <span class="status" id="project-detail-status"></span>
+                            </div>
+                            <div class="response-body" id="project-detail-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 捐赠管理 -->
+            <div id="donations-tab" class="tab-content">
+                <div class="section">
+                    <div class="section-header">创建捐赠</div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>项目ID</label>
+                            <input type="text" id="donation-project-id" class="form-control" placeholder="project_123">
+                        </div>
+                        <div class="form-group">
+                            <label>捐赠金额 (元)</label>
+                            <input type="number" id="donation-amount" class="form-control" placeholder="100" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>留言 (可选)</label>
+                            <textarea id="donation-message" class="form-control" placeholder="支持野生动物保护！"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="donation-anonymous"> 匿名捐赠
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>支付方式</label>
+                            <select id="donation-payment-method" class="form-control">
+                                <option value="creem">Creem支付</option>
+                                <option value="alipay">支付宝</option>
+                                <option value="wechat">微信支付</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="testCreateDonation()">创建捐赠</button>
+                        <div id="donation-create-response" class="response hidden">
+                            <div class="response-header">
+                                <span>响应</span>
+                                <span class="status" id="donation-create-status"></span>
+                            </div>
+                            <div class="response-body" id="donation-create-body"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">获取捐赠记录</div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>页码</label>
+                            <input type="number" id="donations-page" class="form-control" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>每页数量</label>
+                            <input type="number" id="donations-limit" class="form-control" value="10" min="1" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>项目ID筛选 (可选)</label>
+                            <input type="text" id="donations-project-filter" class="form-control" placeholder="project_123">
+                        </div>
+                        <button class="btn" onclick="testGetDonations()">获取捐赠记录</button>
+                        <div id="donations-list-response" class="response hidden">
+                            <div class="response-header">
+                                <span>响应</span>
+                                <span class="status" id="donations-list-status"></span>
+                            </div>
+                            <div class="response-body" id="donations-list-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统管理 -->
+            <div id="system-tab" class="tab-content">
+                <div class="section">
+                    <div class="section-header">系统健康检查</div>
+                    <div class="section-content">
+                        <p style="margin-bottom: 15px; color: #666;">检查系统各组件的运行状态和性能指标</p>
+                        <button class="btn" onclick="testHealthCheck()">健康检查</button>
+                        <div id="health-response" class="response hidden">
+                            <div class="response-header">
+                                <span>响应</span>
+                                <span class="status" id="health-status"></span>
+                            </div>
+                            <div class="response-body" id="health-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = localStorage.getItem('authToken') || '';
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            if (authToken) {
+                document.getElementById('authToken').value = authToken;
+                updateTokenStatus();
+            }
+        });
+
+        // 设置Token
+        function setToken() {
+            authToken = document.getElementById('authToken').value;
+            localStorage.setItem('authToken', authToken);
+            updateTokenStatus();
+        }
+
+        // 更新Token状态
+        function updateTokenStatus() {
+            const statusEl = document.getElementById('tokenStatus');
+            if (authToken) {
+                statusEl.textContent = '已设置';
+                statusEl.style.color = '#2e7d32';
+            } else {
+                statusEl.textContent = '未设置';
+                statusEl.style.color = '#d32f2f';
+            }
+        }
+
+        // 切换标签页
+        function switchTab(tabName) {
+            // 隐藏所有标签内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 移除所有标签的active类
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 显示选中的标签内容
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // 设置选中标签的active类
+            event.target.classList.add('active');
+        }
+
+        // 发送API请求的通用函数
+        async function sendRequest(method, url, data = null) {
+            const options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            if (authToken) {
+                options.headers['Authorization'] = `Bearer ${authToken}`;
+            }
+
+            if (data && (method === 'POST' || method === 'PUT')) {
+                options.body = JSON.stringify(data);
+            }
+
+            try {
+                const response = await fetch(url, options);
+                const responseData = await response.json();
+
+                return {
+                    status: response.status,
+                    data: responseData
+                };
+            } catch (error) {
+                return {
+                    status: 0,
+                    data: {
+                        success: false,
+                        error: {
+                            code: 'NETWORK_ERROR',
+                            message: '网络请求失败: ' + error.message
+                        }
+                    }
+                };
+            }
+        }
+
+        // 显示响应结果
+        function showResponse(responseId, statusId, bodyId, result) {
+            const responseEl = document.getElementById(responseId);
+            const statusEl = document.getElementById(statusId);
+            const bodyEl = document.getElementById(bodyId);
+
+            responseEl.classList.remove('hidden');
+
+            // 设置状态
+            if (result.status >= 200 && result.status < 300) {
+                statusEl.textContent = `${result.status} - 成功`;
+                statusEl.className = 'status success';
+            } else {
+                statusEl.textContent = `${result.status} - 失败`;
+                statusEl.className = 'status error';
+            }
+
+            // 设置响应体
+            bodyEl.textContent = JSON.stringify(result.data, null, 2);
+        }
+
+        // 测试用户注册
+        async function testRegister() {
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const name = document.getElementById('register-name').value;
+            const phone = document.getElementById('register-phone').value;
+
+            if (!email || !password || !name) {
+                alert('请填写邮箱、密码和姓名');
+                return;
+            }
+
+            const result = await sendRequest('POST', '/api/auth/register', {
+                email,
+                password,
+                name,
+                phone
+            });
+
+            showResponse('register-response', 'register-status', 'register-body', result);
+
+            // 如果注册成功，自动填充登录表单
+            if (result.status === 201 && result.data.success) {
+                document.getElementById('login-email').value = email;
+                document.getElementById('login-password').value = password;
+            }
+        }
+
+        // 测试用户登录
+        async function testLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                alert('请填写邮箱和密码');
+                return;
+            }
+
+            const result = await sendRequest('POST', '/api/auth/login', {
+                email,
+                password
+            });
+
+            showResponse('login-response', 'login-status', 'login-body', result);
+
+            // 如果登录成功，自动设置Token
+            if (result.status === 200 && result.data.success) {
+                authToken = result.data.data.token;
+                document.getElementById('authToken').value = authToken;
+                localStorage.setItem('authToken', authToken);
+                updateTokenStatus();
+            }
+        }
+
+        // 测试获取项目列表
+        async function testGetProjects() {
+            const page = document.getElementById('projects-page').value;
+            const limit = document.getElementById('projects-limit').value;
+            const status = document.getElementById('projects-status').value;
+            const search = document.getElementById('projects-search').value;
+
+            const params = new URLSearchParams({
+                page: page,
+                limit: limit
+            });
+
+            if (status) params.append('status', status);
+            if (search) params.append('search', search);
+
+            const result = await sendRequest('GET', `/api/projects?${params}`);
+            showResponse('projects-list-response', 'projects-list-status', 'projects-list-body', result);
+        }
+
+        // 测试获取项目详情
+        async function testGetProject() {
+            const projectId = document.getElementById('project-id').value;
+
+            if (!projectId) {
+                alert('请输入项目ID');
+                return;
+            }
+
+            const result = await sendRequest('GET', `/api/projects/${projectId}`);
+            showResponse('project-detail-response', 'project-detail-status', 'project-detail-body', result);
+        }
+
+        // 测试创建捐赠
+        async function testCreateDonation() {
+            const projectId = document.getElementById('donation-project-id').value;
+            const amount = document.getElementById('donation-amount').value;
+            const message = document.getElementById('donation-message').value;
+            const isAnonymous = document.getElementById('donation-anonymous').checked;
+            const paymentMethod = document.getElementById('donation-payment-method').value;
+
+            if (!projectId || !amount) {
+                alert('请填写项目ID和捐赠金额');
+                return;
+            }
+
+            if (!authToken) {
+                alert('请先登录获取Token');
+                return;
+            }
+
+            const result = await sendRequest('POST', '/api/donations', {
+                projectId,
+                amount: parseInt(amount),
+                message,
+                isAnonymous,
+                paymentMethod
+            });
+
+            showResponse('donation-create-response', 'donation-create-status', 'donation-create-body', result);
+        }
+
+        // 测试获取捐赠记录
+        async function testGetDonations() {
+            const page = document.getElementById('donations-page').value;
+            const limit = document.getElementById('donations-limit').value;
+            const projectId = document.getElementById('donations-project-filter').value;
+
+            const params = new URLSearchParams({
+                page: page,
+                limit: limit
+            });
+
+            if (projectId) params.append('projectId', projectId);
+
+            const result = await sendRequest('GET', `/api/donations?${params}`);
+            showResponse('donations-list-response', 'donations-list-status', 'donations-list-body', result);
+        }
+
+        // 测试系统健康检查
+        async function testHealthCheck() {
+            const result = await sendRequest('GET', '/api/system/health');
+            showResponse('health-response', 'health-status', 'health-body', result);
+        }
+    </script>
+</body>
+</html>
