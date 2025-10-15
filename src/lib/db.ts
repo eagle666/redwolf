@@ -57,7 +57,7 @@ export function createDatabaseConnection(): any {
     insert: () => ({ values: () => ({ returning: () => Promise.resolve([{}]) }) }),
     update: () => ({ set: () => ({ where: () => Promise.resolve([{}]) }) }),
     delete: () => ({ where: () => Promise.resolve(1) }),
-    transaction: (callback) => callback({})
+    transaction: (callback: any) => callback({})
   }
 }
 
@@ -97,6 +97,6 @@ export function createDrizzleInstance(): any {
     update: () => ({ set: () => ({ where: () => Promise.resolve([{}]) }) }),
     delete: () => ({ where: () => Promise.resolve(1) }),
     query: () => ({ table: { columns: {} } }),
-    transaction: (callback) => callback({})
+    transaction: (callback: any) => callback({})
   }
 }
