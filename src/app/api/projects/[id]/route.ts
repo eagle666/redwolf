@@ -3,7 +3,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getProjectById, updateProject, deleteProject } from '@/lib/models/donation-projects'
+import { getDonationProjectById, updateDonationProject, deleteDonationProject } from '@/lib/models/donation-projects'
 
 export async function GET(
   request: NextRequest,
@@ -24,22 +24,22 @@ export async function GET(
     }
 
     // 调用获取项目详情服务
-    const result = await getProjectById(id)
+    const project = await getDonationProjectById(id)
 
-    if (result.success) {
+    if (project) {
       return NextResponse.json({
         success: true,
         data: {
-          project: result.project
+          project
         }
       })
     } else {
       return NextResponse.json({
         success: false,
         error: {
-          code: result.errorCode || 'PROJECT_NOT_FOUND',
-          message: result.error || '项目不存在',
-          details: result.details || {}
+          code: 'PROJECT_NOT_FOUND',
+          message: '项目不存在',
+          details: {}
         }
       }, { status: 404 })
     }
@@ -77,26 +77,15 @@ export async function PUT(
     }
 
     // 调用更新项目服务
-    const result = await updateProject(id, body)
+    const project = await updateDonationProject(id, body)
 
-    if (result.success) {
-      return NextResponse.json({
-        success: true,
-        data: {
-          project: result.project
-        },
-        message: '项目更新成功'
-      })
-    } else {
-      return NextResponse.json({
-        success: false,
-        error: {
-          code: result.errorCode || 'UPDATE_FAILED',
-          message: result.error || '项目更新失败',
-          details: result.details || {}
-        }
-      }, { status: 400 })
-    }
+    return NextResponse.json({
+      success: true,
+      data: {
+        project
+      },
+      message: '项目更新成功'
+    })
 
   } catch (error) {
     console.error('更新项目接口错误:', error)
@@ -130,23 +119,12 @@ export async function DELETE(
     }
 
     // 调用删除项目服务
-    const result = await deleteProject(id)
+    await deleteDonationProject(id)
 
-    if (result.success) {
-      return NextResponse.json({
-        success: true,
-        message: '项目删除成功'
-      })
-    } else {
-      return NextResponse.json({
-        success: false,
-        error: {
-          code: result.errorCode || 'DELETE_FAILED',
-          message: result.error || '项目删除失败',
-          details: result.details || {}
-        }
-      }, { status: 400 })
-    }
+    return NextResponse.json({
+      success: true,
+      message: '项目删除成功'
+    })
 
   } catch (error) {
     console.error('删除项目接口错误:', error)

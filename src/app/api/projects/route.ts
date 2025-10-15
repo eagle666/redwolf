@@ -3,7 +3,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getProjects, createProject } from '@/lib/models/donation-projects'
+import { getDonationProjects, createDonationProject } from '@/lib/models/donation-projects'
 
 export async function GET(request: NextRequest) {
   try {
@@ -17,32 +17,20 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search') || undefined
 
     // 调用项目列表服务
-    const result = await getProjects({
+    const result = await getDonationProjects({
       page,
       limit,
       status,
-      category,
-      search
+      featured: undefined
     })
 
-    if (result.success) {
-      return NextResponse.json({
-        success: true,
-        data: {
-          projects: result.projects,
-          pagination: result.pagination
-        }
-      })
-    } else {
-      return NextResponse.json({
-        success: false,
-        error: {
-          code: result.errorCode || 'QUERY_FAILED',
-          message: result.error || '查询失败',
-          details: result.details || {}
-        }
-      }, { status: 400 })
-    }
+    return NextResponse.json({
+      success: true,
+      data: {
+        projects: result.projects,
+        pagination: result.pagination
+      }
+    })
 
   } catch (error) {
     console.error('项目列表接口错误:', error)
@@ -51,7 +39,7 @@ export async function GET(request: NextRequest) {
       error: {
         code: 'INTERNAL_ERROR',
         message: '服务器内部错误',
-        details: {}
+        details: error instanceof Error ? { message: error.message } : {}
       }
     }, { status: 500 })
   }
@@ -85,35 +73,19 @@ export async function POST(request: NextRequest) {
     }
 
     // 调用创建项目服务
-    const result = await createProject({
+    const project = await createDonationProject({
       title,
       description,
-      content,
-      targetAmount,
-      category,
-      startDate,
-      endDate,
-      images
+      targetAmount
     })
 
-    if (result.success) {
-      return NextResponse.json({
-        success: true,
-        data: {
-          project: result.project
-        },
-        message: '项目创建成功'
-      }, { status: 201 })
-    } else {
-      return NextResponse.json({
-        success: false,
-        error: {
-          code: result.errorCode || 'CREATION_FAILED',
-          message: result.error || '项目创建失败',
-          details: result.details || {}
-        }
-      }, { status: 400 })
-    }
+    return NextResponse.json({
+      success: true,
+      data: {
+        project
+      },
+      message: '项目创建成功'
+    }, { status: 201 })
 
   } catch (error) {
     console.error('创建项目接口错误:', error)

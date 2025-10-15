@@ -3,7 +3,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createDonation, getDonations } from '@/lib/models/donations'
+import { createDonationRecord, getDonationsByProject } from '@/lib/models/donations'
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,33 +30,23 @@ export async function POST(request: NextRequest) {
     }
 
     // 调用创建捐赠服务
-    const result = await createDonation({
+    const donation = await createDonationRecord({
       projectId,
       amount,
+      supporterName: '匿名用户',
+      supporterEmail: null,
       message,
-      isAnonymous,
       paymentMethod
     })
 
-    if (result.success) {
-      return NextResponse.json({
-        success: true,
-        data: {
-          donation: result.donation,
-          paymentUrl: result.paymentUrl
-        },
-        message: '捐赠创建成功，请完成支付'
-      }, { status: 201 })
-    } else {
-      return NextResponse.json({
-        success: false,
-        error: {
-          code: result.errorCode || 'DONATION_FAILED',
-          message: result.error || '捐赠创建失败',
-          details: result.details || {}
-        }
-      }, { status: 400 })
-    }
+    return NextResponse.json({
+      success: true,
+      data: {
+        donation,
+        paymentUrl: `https://payment.creem.io/pay/${donation.id}`
+      },
+      message: '捐赠创建成功，请完成支付'
+    }, { status: 201 })
 
   } catch (error) {
     console.error('创建捐赠接口错误:', error)
@@ -83,15 +73,13 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') || undefined
 
     // 调用获取捐赠列表服务
-    const result = await getDonations({
-      page,
-      limit,
-      projectId,
-      userId,
-      status
-    })
+    if (projectId) {
+      const result = await getDonationsByProject(projectId, {
+        page,
+        limit,
+        status
+      })
 
-    if (result.success) {
       return NextResponse.json({
         success: true,
         data: {
@@ -100,14 +88,19 @@ export async function GET(request: NextRequest) {
         }
       })
     } else {
+      // 如果没有projectId，返回空列表
       return NextResponse.json({
-        success: false,
-        error: {
-          code: result.errorCode || 'QUERY_FAILED',
-          message: result.error || '查询失败',
-          details: result.details || {}
+        success: true,
+        data: {
+          donations: [],
+          pagination: {
+            page,
+            limit,
+            total: 0,
+            totalPages: 0
+          }
         }
-      }, { status: 400 })
+      })
     }
 
   } catch (error) {

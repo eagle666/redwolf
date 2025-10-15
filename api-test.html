@@ -614,7 +614,7 @@
             }
 
             try {
-                const response = await fetch(url, options);
+                const response = await fetch('http://localhost:3001' + url, options);
                 const responseData = await response.json();
 
                 return {
