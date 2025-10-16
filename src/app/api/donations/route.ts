@@ -1,10 +1,98 @@
 /**
  * 捐赠管理API接口
+ * 提供捐赠记录的创建、查询功能
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createDonationRecord, getDonationsByProject } from '@/lib/models/donations'
 
+/**
+ * @swagger
+ * /api/donations:
+ *   post:
+ *     summary: 创建捐赠记录
+ *     tags: [Donations]
+ *     description: 创建新的捐赠记录，生成支付链接
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - projectId
+ *               - amount
+ *             properties:
+ *               projectId:
+ *                 type: string
+ *                 format: uuid
+ *                 description: 项目ID
+ *                 example: "project_123"
+ *               amount:
+ *                 type: number
+ *                 format: float
+ *                 description: 捐赠金额（元）
+ *                 example: 100
+ *                 minimum: 0.01
+ *               message:
+ *                 type: string
+ *                 description: 捐赠留言
+ *                 example: "支持野生动物保护！"
+ *                 maxLength: 500
+ *               isAnonymous:
+ *                 type: boolean
+ *                 description: 是否匿名捐赠
+ *                 example: false
+ *               paymentMethod:
+ *                 type: string
+ *                 description: 支付方式
+ *                 example: "creem"
+ *                 enum: [creem, alipay, wechat, bank]
+ *     responses:
+ *       201:
+ *         description: 捐赠记录创建成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     donation:
+ *                       $ref: '#/components/schemas/Donation'
+ *                     paymentUrl:
+ *                       type: string
+ *                       format: uri
+ *                       example: "https://payment.creem.io/pay/donation_123"
+ *                       description: 支付链接
+ *                 message:
+ *                   type: string
+ *                   example: "捐赠创建成功，请完成支付"
+ *       400:
+ *         description: 请求参数错误
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: 未授权访问
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: 服务器内部错误
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -61,6 +149,90 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/**
+ * @swagger
+ * /api/donations:
+ *   get:
+ *     summary: 获取捐赠记录列表
+ *     tags: [Donations]
+ *     description: 获取捐赠记录列表，支持按项目、用户、状态等条件筛选
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: projectId
+ *         in: query
+ *         description: 项目ID筛选
+ *         required: false
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *           example: "project_123"
+ *       - name: userId
+ *         in: query
+ *         description: 用户ID筛选
+ *         required: false
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *           example: "user_123"
+ *       - name: status
+ *         in: query
+ *         description: 捐赠状态筛选
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [pending, completed, failed]
+ *           example: "completed"
+ *       - name: page
+ *         in: query
+ *         description: 页码
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *       - name: limit
+ *         in: query
+ *         description: 每页数量
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *           default: 10
+ *     responses:
+ *       200:
+ *         description: 成功返回捐赠记录列表
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     donations:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Donation'
+ *                     pagination:
+ *                       $ref: '#/components/schemas/Pagination'
+ *       401:
+ *         description: 未授权访问
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: 服务器内部错误
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
