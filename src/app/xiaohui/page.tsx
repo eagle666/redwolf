@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-export default function XiaoHuiProfile() {
-  const [activeTab, setActiveTab] = useState('story');
+export default function RescueCases() {
+  const [activeTab, setActiveTab] = useState('types');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -15,7 +15,7 @@ export default function XiaoHuiProfile() {
             <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">狼</span>
             </div>
-            <h1 className="text-xl font-bold text-gray-800">小灰救助项目</h1>
+            <h1 className="text-xl font-bold text-gray-800">野生动物救助</h1>
           </Link>
           <Link
             href="/"
@@ -28,84 +28,16 @@ export default function XiaoHuiProfile() {
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-orange-100 to-green-100 py-12">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="md:flex">
-              <div className="md:w-1/2">
-                <div className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 relative">
-                  <img
-                    src="/xiaohui-current.jpg"
-                    alt="小灰现在的样子"
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.nextElementSibling.style.display = 'flex';
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center" style={{display: 'none'}}>
-                    <div className="text-white text-center">
-                      <div className="text-8xl mb-4">🐺</div>
-                      <p className="text-lg">小灰现在的样子</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="md:w-1/2 p-8">
-                <div className="mb-4">
-                  <h1 className="text-4xl font-bold text-gray-800 mb-2">小灰</h1>
-                  <p className="text-lg text-gray-600 mb-4">阿尔泰山的小狼王</p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm">
-                      雄性
-                    </span>
-                    <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-                      11个月大
-                    </span>
-                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-                      15kg
-                    </span>
-                    <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
-                      健康良好
-                    </span>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">🎂</span>
-                    <div>
-                      <p className="font-semibold">救助时间</p>
-                      <p className="text-sm text-gray-600">2023年11月15日</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">📍</span>
-                    <div>
-                      <p className="font-semibold">发现地点</p>
-                      <p className="text-sm text-gray-600">新疆阿尔泰山脚下</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">🏥</span>
-                    <div>
-                      <p className="font-semibold">健康状况</p>
-                      <p className="text-sm text-gray-600">完全康复，准备野外放养</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">⏰</span>
-                    <div>
-                      <p className="font-semibold">预计放养时间</p>
-                      <p className="text-sm text-gray-600">2024年8月（还有2个月）</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            野生动物救助案例
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            每一个救助案例都是生命的奇迹。这里展示我们救助工作的类型和流程，
+            让您了解野生动物保护的真实过程。
+          </p>
+          <div className="mt-6 inline-block bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full">
+            <span className="text-sm font-medium">💡 以下为救助类型展示，非具体案例</span>
           </div>
         </div>
       </section>
@@ -117,10 +49,10 @@ export default function XiaoHuiProfile() {
             <div className="border-b border-gray-200">
               <nav className="flex space-x-8 px-8">
                 {[
-                  { id: 'story', label: '救助故事', icon: '📖' },
-                  { id: 'progress', label: '康复进展', icon: '📈' },
-                  { id: 'medical', label: '医疗记录', icon: '🏥' },
-                  { id: 'photos', label: '成长相册', icon: '📷' },
+                  { id: 'types', label: '救助类型', icon: '🏥' },
+                  { id: 'process', label: '救助流程', icon: '📋' },
+                  { id: 'recovery', label: '康复阶段', icon: '💪' },
+                  { id: 'success', label: '成功要素', icon: '✨' },
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -139,127 +71,233 @@ export default function XiaoHuiProfile() {
             </div>
 
             <div className="p-8">
-              {activeTab === 'story' && (
-                <div className="prose max-w-none">
-                  <h2 className="text-2xl font-bold text-gray-800 mb-4">小灰的救助故事</h2>
+              {activeTab === 'types' && (
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">常见救助类型</h2>
 
-                  <div className="bg-orange-50 rounded-lg p-6 mb-6">
-                    <h3 className="font-bold text-lg mb-3">初次相遇</h3>
-                    <p className="text-gray-700 mb-4">
-                      2023年11月15日，一个寒冷的清晨。新疆阿尔泰山的气温降到了零下18度。
-                      我们在进行常规野生动物巡护时，在雪地里发现了一个小小的身影。
-                    </p>
-                    <p className="text-gray-700 mb-4">
-                      那是一只约3个月大的狼崽，独自在雪地里瑟瑟发抖。它的毛被冻得结了冰，
-                      右前腿有一道很深的伤口，看起来已经好几天没有进食了。我们给它取名"小灰"，
-                      因为它灰色的毛发在阳光下显得格外温柔。
-                    </p>
-                    <p className="text-gray-700">
-                      当时的情况很危急，如果我们晚发现半小时，小灰可能就已经...
-                      现在回想起来，那一刻真的是命运的安排。
-                    </p>
-                  </div>
-
-                  <div className="bg-green-50 rounded-lg p-6 mb-6">
-                    <h3 className="font-bold text-lg mb-3">艰难的康复之路</h3>
-                    <p className="text-gray-700 mb-4">
-                      救助小灰只是第一步，真正的挑战是如何让它恢复健康。最初的一周，
-                      小灰拒绝进食，只是蜷缩在角落里。我们知道野生动物对人类有戒心，
-                      但看着它日渐虚弱，心如刀割。
-                    </p>
-                    <p className="text-gray-700 mb-4">
-                      转折点出现在第5天。李晓燕（我们的志愿者负责人）带来了新鲜的羊肉丝，
-                      小心翼翼地放在小灰面前。也许是饿坏了，也许是感受到了我们的善意，
-                      小灰犹豫了很久，终于开始小口小口地吃起来。
-                    </p>
-                    <p className="text-gray-700">
-                      那一刻，我们所有人都哭了。我们知道，这个小生命有了希望。
-                    </p>
-                  </div>
-
-                  <div className="bg-blue-50 rounded-lg p-6">
-                    <h3 className="font-bold text-lg mb-3">成长的奇迹</h3>
-                    <p className="text-gray-700 mb-4">
-                      8个月过去了，小灰从当初那个5kg的小不点，长成了现在15kg的健康大狼。
-                      它学会了基本的捕猎技巧，开始展现出狼的本性，但对我们依然保持着一份特殊的亲近。
-                    </p>
-                    <p className="text-gray-700">
-                      现在的小灰，已经准备好回到真正的家——阿尔泰山的广袤天地。但我们知道，
-                      分别的时刻即将到来，既期待又舍不得...
-                    </p>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {[
+                      {
+                        icon: '🐺',
+                        title: '受伤野生动物',
+                        description: '因交通事故、陷阱、人为伤害等导致的外伤或内伤',
+                        examples: ['骨折、创伤', '中毒', '烧伤', '内伤'],
+                        urgency: 'high'
+                      },
+                      {
+                        icon: '🐤',
+                        title: '幼崽孤儿',
+                        description: '失去父母或与群体分离的幼年动物',
+                        examples: ['鸟类幼雏', '哺乳类幼崽', '失去母亲', '群体分离'],
+                        urgency: 'high'
+                      },
+                      {
+                        icon: '🦅',
+                        title: '疾病动物',
+                        description: '感染疾病、寄生虫感染或营养不良的野生动物',
+                        examples: ['传染病', '寄生虫', '营养不良', '慢性疾病'],
+                        urgency: 'medium'
+                      },
+                      {
+                        icon: '🏠',
+                        title: '栖息地丧失',
+                        description: '因森林砍伐、城市扩张等失去栖息地的动物',
+                        examples: ['森林砍伐', '城市扩张', '栖息地破坏', '食物短缺'],
+                        urgency: 'medium'
+                      }
+                    ].map((type, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-6">
+                        <div className="flex items-center mb-4">
+                          <span className="text-3xl mr-3">{type.icon}</span>
+                          <h3 className="font-bold text-lg text-gray-800">{type.title}</h3>
+                        </div>
+                        <p className="text-gray-600 mb-4">{type.description}</p>
+                        <div className="mb-3">
+                          <p className="text-sm font-semibold text-gray-700 mb-2">常见情况：</p>
+                          <div className="flex flex-wrap gap-2">
+                            {type.examples.map((example, i) => (
+                              <span key={i} className="bg-white px-2 py-1 rounded text-xs text-gray-600">
+                                {example}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-sm font-medium">紧急程度：</span>
+                          <span className={`ml-2 px-2 py-1 rounded text-xs ${
+                            type.urgency === 'high'
+                              ? 'bg-red-100 text-red-700'
+                              : 'bg-yellow-100 text-yellow-700'
+                          }`}>
+                            {type.urgency === 'high' ? '紧急' : '一般'}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
 
-              {activeTab === 'progress' && (
+              {activeTab === 'process' && (
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">康复进展记录</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">标准救助流程</h2>
+
+                  <div className="space-y-8">
+                    {[
+                      {
+                        step: 1,
+                        title: '接收评估',
+                        description: '接到求助信息或现场发现后，专业团队第一时间到达现场',
+                        details: [
+                          '评估动物状况和安全性',
+                          '确定是否需要救助',
+                          '制定安全转运方案',
+                          '记录现场环境和情况'
+                        ],
+                        duration: '30分钟-2小时'
+                      },
+                      {
+                        step: 2,
+                        title: '安全转运',
+                        description: '使用专业设备将动物安全转移到救助中心',
+                        details: [
+                          '使用合适的转运笼具',
+                          '减少转运过程中的应激',
+                          '提供基本的生命支持',
+                          '确保人畜安全'
+                        ],
+                        duration: '1-4小时'
+                      },
+                      {
+                        step: 3,
+                        title: '医疗检查',
+                        description: '进行全面体检和必要的医疗救治',
+                        details: [
+                          '兽医全面体检',
+                          '血液检测和影像检查',
+                          '伤口清理和处理',
+                          '制定治疗方案'
+                        ],
+                        duration: '2-6小时'
+                      },
+                      {
+                        step: 4,
+                        title: '康复护理',
+                        description: '根据病情进行个性化康复护理',
+                        details: [
+                          '专业营养配餐',
+                          '药物治疗和伤口护理',
+                          '行为观察和记录',
+                          '逐步恢复训练'
+                        ],
+                        duration: '数周至数月'
+                      },
+                      {
+                        step: 5,
+                        title: '放归评估',
+                        description: '评估动物是否具备回归野外条件',
+                        details: [
+                          '健康状态评估',
+                          '生存技能测试',
+                          '放归地点选择',
+                          '放归后监测计划'
+                        ],
+                        duration: '1-2周'
+                      }
+                    ].map((process, index) => (
+                      <div key={index} className="flex items-start space-x-4">
+                        <div className="flex-shrink-0">
+                          <div className="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold">
+                            {process.step}
+                          </div>
+                        </div>
+                        <div className="flex-grow">
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="font-bold text-lg text-gray-800">{process.title}</h3>
+                            <span className="text-sm text-gray-500">{process.duration}</span>
+                          </div>
+                          <p className="text-gray-600 mb-3">{process.description}</p>
+                          <div className="grid md:grid-cols-2 gap-2">
+                            {process.details.map((detail, i) => (
+                              <div key={i} className="flex items-center text-sm text-gray-600">
+                                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                {detail}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'recovery' && (
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">康复阶段划分</h2>
 
                   <div className="space-y-6">
                     {[
                       {
-                        date: '2024年6月',
-                        title: '野外生存训练',
-                        description: '开始在保护区的训练场进行捕猎技巧训练，学习追踪小型动物',
-                        status: 'excellent',
-                        weight: '15kg'
+                        phase: '急救期',
+                        duration: '1-7天',
+                        description: '稳定生命体征，处理紧急情况',
+                        goals: ['止血止痛', '抗感染治疗', '体液补充', '体温维持'],
+                        monitoring: ['生命体征', '伤口情况', '精神状态', '进食情况']
                       },
                       {
-                        date: '2024年4月',
-                        title: '社交行为恢复',
-                        description: '开始展现出狼的领地意识和社交行为，与其他救助动物有了初步接触',
-                        status: 'good',
-                        weight: '12kg'
+                        phase: '恢复期',
+                        duration: '1-4周',
+                        description: '伤口愈合，基本功能恢复',
+                        goals: ['伤口愈合', '食欲恢复', '体重增加', '活动能力提升'],
+                        monitoring: ['体重变化', '食欲记录', '伤口愈合情况', '行为观察']
                       },
                       {
-                        date: '2024年2月',
-                        title: '体能恢复期',
-                        description: '伤口完全愈合，开始在较大范围内活动，体能明显提升',
-                        status: 'good',
-                        weight: '9kg'
+                        phase: '康复期',
+                        duration: '1-3个月',
+                        description: '体能恢复，技能训练',
+                        goals: ['体能训练', '生存技能', '社会化适应', '独立性培养'],
+                        monitoring: ['体能测试', '技能掌握', '行为发展', '健康指标']
                       },
                       {
-                        date: '2023年12月',
-                        title: '初期康复',
-                        description: '开始正常进食，伤口感染得到控制，体重缓慢增加',
-                        status: 'fair',
-                        weight: '6kg'
-                      },
-                      {
-                        date: '2023年11月',
-                        title: '紧急救助',
-                        description: '发现时严重营养不良，右前腿受伤，体温过低',
-                        status: 'critical',
-                        weight: '5kg'
+                        phase: '适应期',
+                        duration: '2-4周',
+                        description: '为回归野外做准备',
+                        goals: ['野外适应', '独立觅食', '躲避天敌', '建立领地意识'],
+                        monitoring: ['野外训练', '独立能力', '健康状况', '放归准备度']
                       }
-                    ].map((item, index) => (
-                      <div key={index} className="flex items-start space-x-4">
-                        <div className="flex-shrink-0">
-                          <div className={`w-4 h-4 rounded-full ${
-                            item.status === 'excellent' ? 'bg-green-500' :
-                            item.status === 'good' ? 'bg-blue-500' :
-                            item.status === 'fair' ? 'bg-yellow-500' :
-                            'bg-red-500'
-                          }`}></div>
+                    ].map((phase, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-bold text-lg text-gray-800">{phase.phase}</h3>
+                          <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                            {phase.duration}
+                          </span>
                         </div>
-                        <div className="flex-grow">
-                          <div className="flex items-center justify-between mb-2">
-                            <h3 className="font-bold text-gray-800">{item.title}</h3>
-                            <span className="text-sm text-gray-500">{item.date}</span>
+                        <p className="text-gray-600 mb-4">{phase.description}</p>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div>
+                            <p className="font-semibold text-gray-700 mb-2">康复目标：</p>
+                            <ul className="space-y-1">
+                              {phase.goals.map((goal, i) => (
+                                <li key={i} className="flex items-center text-sm text-gray-600">
+                                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                  {goal}
+                                </li>
+                              ))}
+                            </ul>
                           </div>
-                          <p className="text-gray-600 mb-2">{item.description}</p>
-                          <div className="flex items-center space-x-4 text-sm">
-                            <span className="text-gray-500">体重: {item.weight}</span>
-                            <span className={`px-2 py-1 rounded-full text-xs ${
-                              item.status === 'excellent' ? 'bg-green-100 text-green-700' :
-                              item.status === 'good' ? 'bg-blue-100 text-blue-700' :
-                              item.status === 'fair' ? 'bg-yellow-100 text-yellow-700' :
-                              'bg-red-100 text-red-700'
-                            }`}>
-                              {item.status === 'excellent' ? '优秀' :
-                               item.status === 'good' ? '良好' :
-                               item.status === 'fair' ? '一般' : '危急'}
-                            </span>
+                          <div>
+                            <p className="font-semibold text-gray-700 mb-2">监测指标：</p>
+                            <ul className="space-y-1">
+                              {phase.monitoring.map((item, i) => (
+                                <li key={i} className="flex items-center text-sm text-gray-600">
+                                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
                           </div>
                         </div>
                       </div>
@@ -268,177 +306,85 @@ export default function XiaoHuiProfile() {
                 </div>
               )}
 
-              {activeTab === 'medical' && (
+              {activeTab === 'success' && (
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">医疗记录</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6">救助成功要素</h2>
 
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            日期
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            项目
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            兽医
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            结果
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            费用
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            2024-05-15
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            常规体检 + 疫苗接种
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            王兽医
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-green-600">
-                            健康
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            ¥350
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            2024-03-20
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            驱虫治疗
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            王兽医
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-green-600">
-                            成功
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            ¥180
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            2023-11-16
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            伤口处理 + 抗生素治疗
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            王兽医
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-yellow-600">
-                            感染控制中
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            ¥800
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div className="mt-8 bg-blue-50 rounded-lg p-6">
-                    <h3 className="font-bold text-lg mb-3">医疗档案说明</h3>
-                    <p className="text-gray-700 mb-4">
-                      小灰的所有医疗记录都有详细档案，包括诊断书、处方单、费用明细等。
-                      我们承诺所有医疗信息真实可查，接受任何形式的监督。
-                    </p>
-                    <div className="grid md:grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="font-semibold mb-2">可提供的医疗证明：</p>
-                        <ul className="space-y-1 text-gray-600">
-                          <li>• 兽医诊断书原件</li>
-                          <li>• 治疗过程照片记录</li>
-                          <li>• 药品采购发票</li>
-                        </ul>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="font-bold text-lg mb-4 text-gray-800">专业要素</h3>
+                      <div className="space-y-4">
+                        <div className="flex items-start">
+                          <span className="text-2xl mr-3">👨‍⚕️</span>
+                          <div>
+                            <p className="font-semibold">专业团队</p>
+                            <p className="text-sm text-gray-600">经验丰富的兽医、护理员、训练师</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start">
+                          <span className="text-2xl mr-3">🏥</span>
+                          <div>
+                            <p className="font-semibold">完善设施</p>
+                            <p className="text-sm text-gray-600">专业的医疗设备和康复环境</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start">
+                          <span className="text-2xl mr-3">📋</span>
+                          <div>
+                            <p className="font-semibold">科学流程</p>
+                            <p className="text-sm text-gray-600">标准化的救助和康复程序</p>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-semibold mb-2">健康监测指标：</p>
-                        <ul className="space-y-1 text-gray-600">
-                          <li>• 体重：每周测量记录</li>
-                          <li>• 体温：每日监测</li>
-                          <li>• 活动量：运动轨迹分析</li>
-                        </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="font-bold text-lg mb-4 text-gray-800">关键因素</h3>
+                      <div className="space-y-4">
+                        <div className="flex items-start">
+                          <span className="text-2xl mr-3">⏰</span>
+                          <div>
+                            <p className="font-semibold">及时救助</p>
+                            <p className="text-sm text-gray-600">黄金救助时间内的快速响应</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start">
+                          <span className="text-2xl mr-3">❤️</span>
+                          <div>
+                            <p className="font-semibold">耐心护理</p>
+                            <p className="text-sm text-gray-600">持续的观察和个性化护理</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start">
+                          <span className="text-2xl mr-3">🎯</span>
+                          <div>
+                            <p className="font-semibold">明确目标</p>
+                            <p className="text-sm text-gray-600">以回归野外为最终目标</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
 
-              {activeTab === 'photos' && (
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6">成长相册</h2>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {[
-                      {
-                        date: '2024年6月',
-                        title: '训练中的小灰',
-                        description: '正在学习捕猎技巧，眼神变得更加锐利'
-                      },
-                      {
-                        date: '2024年4月',
-                        title: '健康成长',
-                        description: '体重达到12kg，毛发变得有光泽'
-                      },
-                      {
-                        date: '2024年2月',
-                        title: '康复期',
-                        description: '伤口愈合，开始活泼起来'
-                      },
-                      {
-                        date: '2023年12月',
-                        title: '适应期',
-                        description: '开始接受人类的照顾，慢慢敞开心扉'
-                      },
-                      {
-                        date: '2023年11月',
-                        title: '救助初期',
-                        description: '刚被发现时虚弱的样子，让人心疼'
-                      },
-                      {
-                        date: '2023年11月',
-                        title: '第一次治疗',
-                        description: '王兽医为小灰处理伤口的珍贵瞬间'
-                      }
-                    ].map((photo, index) => (
-                      <div key={index} className="bg-gray-100 rounded-lg overflow-hidden">
-                        <div className="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 relative">
-                          <img
-                            src={`/xiaohui-${index + 1}.jpg`}
-                            alt={photo.title}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                              e.currentTarget.nextElementSibling.style.display = 'flex';
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-black/20 flex items-center justify-center" style={{display: 'none'}}>
-                            <div className="text-white text-center">
-                              <div className="text-4xl mb-2">🐺</div>
-                              <p className="text-sm">{photo.title}</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="p-4">
-                          <h3 className="font-bold text-gray-800 mb-1">{photo.title}</h3>
-                          <p className="text-sm text-gray-600 mb-2">{photo.date}</p>
-                          <p className="text-xs text-gray-500">{photo.description}</p>
-                        </div>
+                  <div className="mt-8 bg-green-50 rounded-lg p-6">
+                    <h3 className="font-bold text-lg mb-4">成功案例特征</h3>
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div className="text-center">
+                        <div className="text-3xl mb-2">📈</div>
+                        <p className="font-semibold">健康恢复</p>
+                        <p className="text-sm text-gray-600">完全康复，无后遗症</p>
                       </div>
-                    ))}
+                      <div className="text-center">
+                        <div className="text-3xl mb-2">🎯</div>
+                        <p className="font-semibold">技能掌握</p>
+                        <p className="text-sm text-gray-600">具备独立生存能力</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-3xl mb-2">🌲</div>
+                        <p className="font-semibold">成功放归</p>
+                        <p className="text-sm text-gray-600">顺利回归自然环境</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -451,40 +397,62 @@ export default function XiaoHuiProfile() {
       <section className="py-16 bg-gradient-to-r from-orange-500 to-red-500">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h3 className="text-3xl font-bold text-white mb-4">
-            继续支持小灰回家
+            支持野生动物救助事业
           </h3>
           <p className="text-xl text-white/90 mb-8">
-            距离小灰回到大自然还有2个月，还需要您的帮助
+            您的每一份善举，都在为无数等待帮助的野生动物创造生机
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white/20 backdrop-blur rounded-lg p-6">
-              <div className="text-3xl mb-2">📡</div>
-              <h4 className="font-bold text-white mb-2">GPS追踪设备</h4>
-              <p className="text-white/80 text-sm mb-3">确保放养后能监测小灰的安全</p>
-              <p className="text-xl font-bold text-yellow-300">¥2,500</p>
+              <div className="text-3xl mb-2">🏥</div>
+              <h4 className="font-bold text-white mb-2">紧急医疗救助</h4>
+              <p className="text-white/80 text-sm mb-3">为受伤动物提供及时救治</p>
+              <p className="text-sm text-white/70">救命医疗费用</p>
             </div>
 
             <div className="bg-white/20 backdrop-blur rounded-lg p-6">
-              <div className="text-3xl mb-2">🎯</div>
-              <h4 className="font-bold text-white mb-2">野外训练</h4>
-              <p className="text-white/80 text-sm mb-3">教会小灰独立生存的技能</p>
-              <p className="text-xl font-bold text-yellow-300">¥3,000</p>
+              <div className="text-3xl mb-2">🏠</div>
+              <h4 className="font-bold text-white mb-2">救助设施建设</h4>
+              <p className="text-white/80 text-sm mb-3">改善救助条件和环境</p>
+              <p className="text-sm text-white/70">设施维护升级</p>
             </div>
 
             <div className="bg-white/20 backdrop-blur rounded-lg p-6">
               <div className="text-3xl mb-2">🍖</div>
-              <h4 className="font-bold text-white mb-2">食物储备</h4>
-              <p className="text-white/80 text-sm mb-3">过渡期的安全保障</p>
-              <p className="text-xl font-bold text-yellow-300">¥4,350</p>
+              <h4 className="font-bold text-white mb-2">康复营养保障</h4>
+              <p className="text-white/80 text-sm mb-3">专业的营养配餐和护理</p>
+              <p className="text-sm text-white/70">食物和营养品</p>
             </div>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur rounded-xl p-6 mb-8 max-w-2xl mx-auto">
+            <h4 className="text-white font-bold mb-4">您的善举将带来：</h4>
+            <ul className="space-y-2 text-white/90 text-left">
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-yellow-300 rounded-full mr-3"></span>
+                更多动物获得及时救助的机会
+              </li>
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-yellow-300 rounded-full mr-3"></span>
+                专业的医疗护理和康复服务
+              </li>
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-yellow-300 rounded-full mr-3"></span>
+                科学规范的救助流程和标准
+              </li>
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-yellow-300 rounded-full mr-3"></span>
+                帮助更多动物重获自由和尊严
+              </li>
+            </ul>
           </div>
 
           <Link
             href="/"
             className="bg-white text-orange-500 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg inline-block"
           >
-            立即捐款支持
+            立即支持救助工作
           </Link>
         </div>
       </section>
