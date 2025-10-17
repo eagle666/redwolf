@@ -25,21 +25,51 @@ export default function Home() {
 
         {/* Title */}
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          帮助野生动物
+          帮助受伤的它们回家
         </h1>
-        <p className="text-gray-600 mb-8">
-          为受伤、失去家园的野生动物提供医疗救助和庇护所
-        </p>
+
+        {/* Heart Touching Story */}
+        <div className="bg-orange-50 rounded-lg p-4 mb-6">
+          <p className="text-sm text-gray-700 leading-relaxed">
+            昨天在路边发现了一只受伤的小鸟，翅膀骨折，眼神无助。
+            这样的故事每天都在发生...<span className="text-orange-600 font-semibold">您的一个小举动，就是它们的全世界。</span>
+          </p>
+        </div>
+
+        {/* What Your Donation Does */}
+        <div className="space-y-3 mb-6 text-left">
+          <div className="flex items-center bg-green-50 rounded-lg p-3">
+            <span className="text-xl mr-3">🏥</span>
+            <div>
+              <p className="text-sm font-semibold">医疗救治</p>
+              <p className="text-xs text-gray-600">20元 = 一次兽医诊疗</p>
+            </div>
+          </div>
+          <div className="flex items-center bg-blue-50 rounded-lg p-3">
+            <span className="text-xl mr-3">🍖</span>
+            <div>
+              <p className="text-sm font-semibold">营养食物</p>
+              <p className="text-xs text-gray-600">50元 = 一个月的食物</p>
+            </div>
+          </div>
+          <div className="flex items-center bg-purple-50 rounded-lg p-3">
+            <span className="text-xl mr-3">🏠</span>
+            <div>
+              <p className="text-sm font-semibold">安全庇护</p>
+              <p className="text-xs text-gray-600">100元 = 一个月的住所</p>
+            </div>
+          </div>
+        </div>
 
         {/* Simple Stats */}
-        <div className="flex justify-around mb-8 py-4 border-y border-gray-200">
+        <div className="flex justify-around mb-6 py-3 border-y border-gray-200">
           <div>
-            <p className="text-2xl font-bold text-orange-600">100+</p>
-            <p className="text-xs text-gray-600">待救助</p>
+            <p className="text-xl font-bold text-orange-600">100+</p>
+            <p className="text-xs text-gray-600">等待帮助</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-green-600">85%</p>
-            <p className="text-xs text-gray-600">成功率</p>
+            <p className="text-xl font-bold text-green-600">85%</p>
+            <p className="text-xs text-gray-600">康复率</p>
           </div>
         </div>
 
@@ -51,10 +81,15 @@ export default function Home() {
           立即捐款
         </button>
 
-        {/* Simple Trust Info */}
-        <p className="text-xs text-gray-500 mt-6">
-          100%用于救助 • 资金透明可查
-        </p>
+        {/* Trust Info */}
+        <div className="mt-6 space-y-2">
+          <p className="text-xs text-gray-600">
+            💝 已有1,234位爱心人士参与
+          </p>
+          <p className="text-xs text-gray-500">
+            100%用于救助 • 资金透明可查
+          </p>
+        </div>
       </div>
 
       {/* Payment Modal */}
@@ -69,6 +104,13 @@ export default function Home() {
               >
                 ×
               </button>
+            </div>
+
+            {/* Impact Preview */}
+            <div className="bg-orange-50 rounded-lg p-4 mb-6">
+              <p className="text-sm text-gray-700">
+                您的善举将直接帮助那些受伤的小生命重新站立、飞翔...
+              </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-6">
@@ -105,14 +147,19 @@ export default function Home() {
               <p className="text-lg font-bold text-orange-600">
                 {selectedAmount !== 'custom' && selectedAmount ? `¥${selectedAmount}` : '请选择金额'}
               </p>
+              {selectedAmount && selectedAmount !== 'custom' && (
+                <p className="text-xs text-gray-500 mt-2">
+                  可以帮助 {Math.floor(parseInt(selectedAmount) / 20)} 只小动物
+                </p>
+              )}
             </div>
 
             <div className="bg-green-50 rounded-lg p-4 text-center">
-              <p className="text-sm text-green-800 font-bold">
-                💝 感谢您的善举
+              <p className="text-sm text-green-800 font-bold mb-1">
+                💝 您的爱心正在改变生命
               </p>
-              <p className="text-xs text-gray-600 mt-1">
-                所有善款将用于野生动物救助
+              <p className="text-xs text-gray-600">
+                100%用于救助 • 我们会用照片和文字记录每一份善款的去向
               </p>
             </div>
           </div>
