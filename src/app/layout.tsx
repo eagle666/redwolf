@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "红狼保护基金 - 为野生动物筹款",
-  description: "为网红狼等野生动物保护项目筹款，支持野生动物保护和栖息地维护",
+  title: "野生动物救助 - 立即捐款",
+  description: "为受伤、失去家园的野生动物提供医疗救助和庇护所",
 };
 
 export default function RootLayout({
