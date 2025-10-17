@@ -1,10 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState('');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const images = [
+    '/background/image.png',
+    '/background/image copy.png',
+    '/background/image copy 2.png',
+    '/background/image copy 3.png',
+    '/background/image copy 4.png'
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 4000); // 每4秒切换一次
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   const donationAmounts = [
     { label: '10元', value: '10' },
@@ -15,21 +32,37 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center p-4">
+    <div className="min-h-screen relative flex items-center justify-center p-4">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`野生动物救助图片 ${index + 1}`}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-2000 ${
+              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
+        {/* Dark Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40 transition-opacity duration-2000"></div>
+      </div>
+
       {/* Main Content */}
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
+      <div className="max-w-md w-full bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-8 text-center relative z-10">
         {/* Logo */}
         <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
           <span className="text-white text-2xl font-bold">🐺</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
+        <h1 className="text-3xl font-bold text-white mb-4">
           帮助受伤的它们回家
         </h1>
 
         {/* Heart Touching Story */}
-        <div className="bg-orange-50 rounded-lg p-4 mb-6">
+        <div className="bg-white/90 backdrop-blur rounded-lg p-4 mb-6">
           <p className="text-sm text-gray-700 leading-relaxed">
             昨天在路边发现了一只受伤的小鸟，翅膀骨折，眼神无助。
             这样的故事每天都在发生...<span className="text-orange-600 font-semibold">您的一个小举动，就是它们的全世界。</span>
@@ -38,21 +71,21 @@ export default function Home() {
 
         {/* What Your Donation Does */}
         <div className="space-y-3 mb-6 text-left">
-          <div className="flex items-center bg-green-50 rounded-lg p-3">
+          <div className="flex items-center bg-green-50/90 backdrop-blur rounded-lg p-3">
             <span className="text-xl mr-3">🏥</span>
             <div>
               <p className="text-sm font-semibold">医疗救治</p>
               <p className="text-xs text-gray-600">20元 = 一次兽医诊疗</p>
             </div>
           </div>
-          <div className="flex items-center bg-blue-50 rounded-lg p-3">
+          <div className="flex items-center bg-blue-50/90 backdrop-blur rounded-lg p-3">
             <span className="text-xl mr-3">🍖</span>
             <div>
               <p className="text-sm font-semibold">营养食物</p>
               <p className="text-xs text-gray-600">50元 = 一个月的食物</p>
             </div>
           </div>
-          <div className="flex items-center bg-purple-50 rounded-lg p-3">
+          <div className="flex items-center bg-purple-50/90 backdrop-blur rounded-lg p-3">
             <span className="text-xl mr-3">🏠</span>
             <div>
               <p className="text-sm font-semibold">安全庇护</p>
@@ -62,7 +95,7 @@ export default function Home() {
         </div>
 
         {/* Simple Stats */}
-        <div className="flex justify-around mb-6 py-3 border-y border-gray-200">
+        <div className="flex justify-around mb-6 py-3 border-y border-gray-300">
           <div>
             <p className="text-xl font-bold text-orange-600">100+</p>
             <p className="text-xs text-gray-600">等待帮助</p>
