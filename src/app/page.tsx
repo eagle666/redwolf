@@ -97,12 +97,12 @@ export default function Home() {
         {/* Simple Stats */}
         <div className="flex justify-around mb-6 py-3 border-y border-gray-300">
           <div>
-            <p className="text-xl font-bold text-orange-600">100+</p>
-            <p className="text-xs text-gray-600">等待帮助</p>
+            <p className="text-xl font-bold text-orange-600">❤️</p>
+            <p className="text-xs text-gray-600">无数爱心汇聚</p>
           </div>
           <div>
-            <p className="text-xl font-bold text-green-600">85%</p>
-            <p className="text-xs text-gray-600">康复率</p>
+            <p className="text-xl font-bold text-green-600">🌱</p>
+            <p className="text-xs text-gray-600">生命重获希望</p>
           </div>
         </div>
 
@@ -117,10 +117,10 @@ export default function Home() {
         {/* Trust Info */}
         <div className="mt-6 space-y-2">
           <p className="text-xs text-gray-700">
-            💝 已有1,234位爱心人士参与
+            💝 每一份爱心都在传递温暖
           </p>
           <p className="text-xs text-gray-600">
-            100%用于救助 • 资金透明可查
+            100%用于救助 • 用爱守护生命
           </p>
         </div>
       </div>
